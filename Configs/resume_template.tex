@@ -1,0 +1,118 @@
+\documentclass[]{deedy-resume-openfont}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{url}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\lastupdated
+
+\namesection{
+    {{ name }}
+}{
+    {{ title }}
+}{
+    \urlstyle{same}
+    \href{mailto:{{ email }}}{ {{ email }} } |
+    {{ phone }} |
+    \href{https://{{ linkedin }}}{ LinkedIn } |
+    \href{https://{{ github }}}{ GitHub }
+}
+
+\begin{document}
+
+\begin{minipage}[t]{0.33\textwidth}
+
+\section{Education}
+
+{% for edu in education %}
+\subsection{{ edu.institution }}
+\descript{{ edu.degree }}
+\location{{ edu.dates }}
+{% if edu.gpa %}
+\location{GPA: {{ edu.gpa }}}
+{% endif %}
+{% if edu.highlights %}
+\begin{itemize}
+{% for highlight in edu.highlights %}
+\item {{ highlight }}
+{% endfor %}
+\end{itemize}
+{% endif %}
+\sectionsep
+{% endfor %}
+
+\section{Skills}
+
+{% for category, skills_list in skills.items() %}
+\subsection{{ category }}
+\location{
+    {% for skill in skills_list %}
+    {{ skill }}{% if not loop.last %} \textbullet{} {% endif %}
+    {% endfor %}
+}
+\sectionsep
+{% endfor %}
+
+{% if languages %}
+\section{Languages}
+{% for lang in languages %}
+{{ lang.language }} \textbullet{} {{ lang.proficiency }} \\
+{% endfor %}
+\sectionsep
+{% endif %}
+
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.66\textwidth}
+
+\section{Experience}
+
+{% for exp in experience %}
+\runsubsection{{ exp.company }}
+\descript{| {{ exp.title }} }
+\location{{ exp.dates }}
+
+{% if exp.achievements %}
+\begin{tightemize}
+{% for achievement in exp.achievements %}
+\item {{ achievement }}
+{% endfor %}
+\end{tightemize}
+{% endif %}
+\sectionsep
+{% endfor %}
+
+{% if projects %}
+\section{Projects}
+
+{% for project in projects %}
+\runsubsection{{ project.name }}
+\descript{| {{ project.technologies }} }
+\location{{ project.dates or "" }}
+
+{{ project.description }}
+
+{% if project.achievements %}
+\begin{tightemize}
+{% for achievement in project.achievements %}
+\item {{ achievement }}
+{% endfor %}
+\end{tightemize}
+{% endif %}
+\sectionsep
+{% endfor %}
+{% endif %}
+
+{% if awards %}
+\section{Awards}
+
+{% for award in awards %}
+\location{{ award.year }} \textbullet{} {{ award.description }} \\
+{% endfor %}
+\sectionsep
+{% endif %}
+
+\end{minipage}
+\end{document}

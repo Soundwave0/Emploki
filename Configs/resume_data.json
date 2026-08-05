@@ -1,0 +1,180 @@
+{
+  "personal_info": {
+    "name": "Konrad Kosuge",
+    "title": "Opto-Mechatronics engineer | Software Developer",
+    "email": "konradkosuge@gmail.com",
+    "phone": "+48 600 001 780",
+    "linkedin": "linkedin.com/in/konrad-kosuge",
+    "github": "github.com/Soundwaveo"
+  },
+  "education": [
+    {
+      "institution": "Politechnika Warszawska",
+      "degree": "Photonics Engineering (Mechatronics)",
+      "location": "Warsaw, Poland",
+      "dates": "2023 - Present",
+      "gpa": "4.7/5.0",
+      "highlights": [
+        "Specializing in photonics and optical engineering",
+        "Combining software development with hardware design"
+      ]
+    },
+    {
+      "institution": "Politechnika Warszawska",
+      "degree": "Applied Computer Science",
+      "location": "Warsaw, Poland",
+      "dates": "2022 - 2023",
+      "gpa": null,
+      "highlights": []
+    },
+    {
+      "institution": "IAS (International American School)",
+      "degree": "High School Diploma - Mathematics/Physics",
+      "location": "Warsaw, Poland",
+      "dates": "2021 - 2022",
+      "gpa": null,
+      "highlights": []
+    },
+    {
+      "institution": "Glenbrook South High School",
+      "degree": "High School Diploma - Mathematics/Computer Science",
+      "location": "Glenview, IL, USA",
+      "dates": "2018 - 2021",
+      "gpa": null,
+      "highlights": []
+    }
+  ],
+  "skills": {
+    "Programming Languages": ["Python", "C/C++", "C#", "Java", "PLSQL", "Matlab"],
+    "Frameworks & Tools": [
+      "Spring Boot",
+      ".NET",
+      "QtWidgets",
+      "Tkinter",
+      "TensorFlow",
+      "PyTest",
+      "Jest"
+    ],
+    "Cloud & DevOps": ["Linux", "Bash"],
+    "Databases": ["Oracle", "PostgreSQL", "MongoDB"],
+    "Soft Skills": ["Leadership", "Communication", "Problem Solving", "Team Collaboration"],
+    "Mechatronics": [
+      "Inventor",
+      "Fusion",
+      "AutoCAD",
+      "SolidWorks",
+      "Electrical Circuit Analysis",
+      "LT-Spice",
+      "Microcontrollers",
+      "RTOS"
+    ],
+    "Optics": ["OSLO", "Instrumental Optics", "ISO10110", "Aberration Analysis", "Interferometry"," Fiber Optics", "Opto-Mechanical Design"]
+  },
+  "experience": [
+    {
+      "company": "CERN SPARC Program",
+      "title": "Software Engineering Intern",
+      "location": "Meyrin, Switzerland",
+      "dates": "Summer 2025",
+      "achievements": [
+        "Developed database infrastructure for PMT component testing in the ALICE FIT digital clone",
+        "Created PL/SQL packages for database operations, reducing query execution time ",
+        "Designed and implemented Python Database API enabling seamless integration with 5+ internal systems"
+      ]
+    },
+    {
+      "company": "Play Software",
+      "title": "Software Engineering Intern",
+      "location": "Warsaw, Poland",
+      "dates": "Summer/Winter 2025",
+      "achievements": [
+        "Developed and debugged 15+ Oracle database packages in PL/SQL for production systems",
+        "Built and tested REST APIs using SpringBoot",
+        "Created automated PL/SQL package generator for product catalog tables, saving 20+ developer hours per week"
+      ]
+    },
+    {
+      "company": "Mathnasium/BestPrep",
+      "title": "Mathematics Instructor",
+      "location": "Chicago, IL",
+      "dates": "2019 - 2021",
+      "achievements": [
+        "Taught mathematics to 50+ students across multiple grade levels",
+        "Designed and implemented personalized learning plans for students with varying skill levels",
+        "Developed coursework materials and grading rubrics "
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Spring-O-Meter 1000",
+      "description": "Designed and built a precision spring stiffness measurement device combining hardware, firmware, and software",
+      "technologies": "C# .NET, C++, ESP8266, Inventor, 3D Printing",
+      "achievements": [
+        "Developed GUI in C# .NET for real-time device monitoring and control, achieving 100ms response time",
+        "Programmed ESP8266 microcontroller firmware in C++ with RTOS, enabling reliable sensor data acquisition",
+        "Designed electronics and mechanical components in Inventor, successfully 3D printing all custom parts"
+      ]
+    },
+    {
+      "name": "TopoStock",
+      "description": "Innovative stock analysis algorithm using topological data analysis for pattern recognition",
+      "technologies": "Python, NumPy, Pandas, Matplotlib",
+      "achievements": [
+        "Developed algorithm analyzing 10,000+ topological profiles to identify stock patterns",
+        "Implemented least squares optimization achieving 85% accuracy in pattern matching",
+        "Created visualization pipeline for comparative analysis of topological profiles"
+      ]
+    },
+    {
+      "name": "NCAA Tournament Predictor",
+      "description": "Monte-Carlo simulation for NCAA basketball tournament prediction",
+      "technologies": "Python, Tkinter, NumPy",
+      "achievements": [
+        "Built Monte-Carlo simulation with 10,000+ iterations for match outcome prediction",
+        "Developed Tkinter GUI with interactive controls and real-time visualization",
+        "Achieved 68% prediction accuracy in bracket generation"
+      ]
+    },
+    {
+      "name": "CNN Phase Retrieval for Inline Digital Holographic Microscopy",
+      "description": "Research project analyzing CNN architectures for phase retrieval in defocus imaging",
+      "technologies": "Python, TensorFlow, Keras",
+      "achievements": [
+        "Implemented and compared U-Net and Multipath CNN architectures",
+        "Optimized models achieving 92% accuracy in phase retrieval tasks",
+        "Published findings in university research showcase"
+      ]
+    },
+    {
+      "name": "PL/SQL Package Generator",
+      "description": "Automated generator for Oracle PL/SQL package procedures from table schemas",
+      "technologies": "Java, Swing, Oracle PL/SQL",
+      "achievements": [
+        "Built Java Swing application that parses Oracle table schemas and generates PL/SQL packages",
+        "Reduced package development time by 70% for 50+ database tables",
+        "Deployed for production use at Play Software's product catalog"
+      ]
+    }
+  ],
+  "awards": [
+    {
+      "year": "2025",
+      "description": "CERN SPARC Program - Selected for highly competitive internship program (5% acceptance rate)"
+    },
+    {
+      "year": "2024",
+      "description": "Best Engineering Project - Spring-O-Meter 1000, Politechnika Warszawska"
+    },
+    {
+      "year": "2023",
+      "description": "Academic Excellence Award - Applied Computer Science, Politechnika Warszawska"
+    }
+  ],
+  "languages": [
+    {"language": "English", "proficiency": "Native"},
+    {"language": "Polish", "proficiency": "Fluent"},
+    {"language": "Japanese", "proficiency": "Fluent"},
+    {"language": "French", "proficiency": "Intermediate"}
+  ]
+}
