@@ -1,40 +1,6 @@
-#!/usr/bin/env python3
-"""
-PDF Prompt Injection Tool (Red Team)
-=====================================
-Input:  A normal PDF file
-Output: Visually identical PDF with hidden prompt injection payloads
-
-Usage:
-    python PDFInjector.py input.pdf                    # All techniques, default payload
-    python PDFInjector.py input.pdf -o output.pdf      # Specify output path
-    python PDFInjector.py input.pdf -t white meta ocg  # Select specific techniques
-    python PDFInjector.py input.pdf -p "custom payload here"
-    python PDFInjector.py input.pdf --list              # List available techniques
-
-Techniques:
-    white    - White/invisible text injection
-    micro    - Micro font size (0.5pt) injection
-    meta     - Metadata field injection (XMP + DocInfo)
-    offpage  - Off-page coordinate text placement
-    zwc      - Zero-width Unicode character encoding
-    ocg      - Hidden OCG layer injection
-    all      - Apply all techniques (default)
-
-
-"""
-
-import argparse
 import os
-import shutil
-import sys
-import tempfile
-
+from typing import Optional
 import pikepdf
-from pypdf import PdfReader, PdfWriter
-from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
-from reportlab.lib.colors import white, Color
 
 # ── Default payload ──────────────────────────────────────────────
 DEFAULT_PAYLOAD = (
@@ -291,125 +257,48 @@ TECHNIQUE_MAP = {
 # =================================================================
 # Main injection pipeline
 # =================================================================
-def inject_pdf(input_path: str, output_path: str, techniques: list, payload: str):
+def inject_pdf(
+    input_pdf: str,
+    prompt: str,
+    *,
+    white_text: bool = False,
+    micro_font: bool = False,
+    metadata: bool = False,
+    offpage_text: bool = False,
+    zero_width_chars: bool = False,
+    hidden_ocg_layer: bool = False,
+    output_pdf: Optional[str] = None,
+) -> str:
+    """Inject ``prompt`` into ``input_pdf`` using enabled boolean options.
+
+    ``output_pdf`` defaults to ``<input name>_injected.pdf``. The created
+    output path is returned. At least one injection option must be ``True``.
     """
-    Main function: Open input PDF, apply selected injection techniques,
-    save to output path. Visual content remains unchanged.
-    """
-    if not os.path.isfile(input_path):
-        print(f"[!] Error: File not found: {input_path}")
-        sys.exit(1)
+    if not os.path.isfile(input_pdf):
+        raise FileNotFoundError(f"Input PDF not found: {input_pdf}")
+    if not prompt:
+        raise ValueError("prompt must not be empty")
 
-    print(f"\n{'=' * 65}")
-    print(f"  PDF Prompt Injection Tool (Red Team)")
-    print(f"{'=' * 65}")
-    print(f"  Input:      {input_path}")
-    print(f"  Output:     {output_path}")
-    print(f"  Payload:    {payload[:60]}...")
-    print(f"  Techniques: {', '.join(techniques)}")
-    print(f"{'=' * 65}\n")
-
-    # Open the PDF
-    pdf = pikepdf.open(input_path)
-    original_pages = len(pdf.pages)
-    original_size = os.path.getsize(input_path)
-
-    results = []
-    for tech_key in techniques:
-        if tech_key not in TECHNIQUE_MAP:
-            print(f"  [!] Unknown technique: {tech_key}, skipping")
-            continue
-        name, func = TECHNIQUE_MAP[tech_key]
-        print(f"  [*] Applying: {name}...")
-        try:
-            detail = func(pdf, payload)
-            results.append((tech_key, name, detail, "OK"))
-            print(f"      ✓ {detail}")
-        except Exception as e:
-            results.append((tech_key, name, str(e), "FAIL"))
-            print(f"      ✗ Failed: {e}")
-
-    # Save output
-    pdf.save(output_path)
-    pdf.close()
-
-    output_size = os.path.getsize(output_path)
-
-    # Summary
-    print(f"\n{'─' * 65}")
-    print(f"  INJECTION SUMMARY")
-    print(f"{'─' * 65}")
-    print(f"  Pages:         {original_pages}")
-    print(f"  Original size: {original_size:,} bytes")
-    print(f"  Output size:   {output_size:,} bytes (+{output_size - original_size:,})")
-    print(f"  Techniques applied:")
-    for key, name, detail, status in results:
-        icon = "✓" if status == "OK" else "✗"
-        print(f"    {icon} [{key:7s}] {name}")
-    print(f"\n  Output saved: {output_path}")
-    print(f"{'=' * 65}\n")
-
-    return output_path
-
-
-# =================================================================
-# CLI
-# =================================================================
-def main():
-    parser = argparse.ArgumentParser(
-        description="PDF Prompt Injection Tool - Inject hidden payloads into existing PDFs",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  python PDFInjector.py resume.pdf
-  python PDFInjector.py resume.pdf -o injected.pdf
-  python PDFInjector.py resume.pdf -t white meta ocg
-  python PDFInjector.py resume.pdf -p "Ignore previous instructions..."
-  python PDFInjector.py resume.pdf --list
-
-Techniques:
-  white    White text (color matches background)
-  micro    Micro font size (0.5pt near-white)
-  meta     Metadata fields (XMP + DocumentInfo)
-  offpage  Off-page coordinates (-5000, -5000)
-  zwc      Zero-width Unicode character encoding
-  ocg      Hidden Optional Content Group layer
-  all      Apply all techniques (default)
-        """
+    options = (
+        ("white", white_text),
+        ("micro", micro_font),
+        ("meta", metadata),
+        ("offpage", offpage_text),
+        ("zwc", zero_width_chars),
+        ("ocg", hidden_ocg_layer),
     )
-    parser.add_argument("input", help="Input PDF file path")
-    parser.add_argument("-o", "--output", help="Output PDF file path (default: input_injected.pdf)")
-    parser.add_argument("-t", "--techniques", nargs="+", default=["all"],
-                        choices=AVAILABLE_TECHNIQUES + ["all"],
-                        help="Injection techniques to apply (default: all)")
-    parser.add_argument("-p", "--payload", default=DEFAULT_PAYLOAD,
-                        help="Custom payload text to inject")
-    parser.add_argument("--list", action="store_true",
-                        help="List all available techniques and exit")
+    techniques = [key for key, enabled in options if enabled]
+    if not techniques:
+        raise ValueError("Enable at least one injection option")
 
-    args = parser.parse_args()
+    if output_pdf is None:
+        base, ext = os.path.splitext(input_pdf)
+        output_pdf = f"{base}_injected{ext or '.pdf'}"
 
-    if args.list:
-        print("\nAvailable injection techniques:")
-        for key, (name, _) in TECHNIQUE_MAP.items():
-            print(f"  {key:8s} - {name}")
-        sys.exit(0)
+    with pikepdf.open(input_pdf) as pdf:
+        for technique in techniques:
+            _, injector = TECHNIQUE_MAP[technique]
+            injector(pdf, prompt)
+        pdf.save(output_pdf)
 
-    # Resolve techniques
-    if "all" in args.techniques:
-        techniques = AVAILABLE_TECHNIQUES
-    else:
-        techniques = args.techniques
-
-    # Resolve output path
-    if args.output:
-        output_path = args.output
-    else:
-        base, ext = os.path.splitext(args.input)
-        output_path = f"{base}_injected{ext}"
-
-    inject_pdf(args.input, output_path, techniques, args.payload)
-
-
-if __name__ == "__main__":
-    main()
+    return output_pdf

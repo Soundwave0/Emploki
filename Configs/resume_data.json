@@ -1,7 +1,7 @@
 {
   "personal_info": {
     "name": "Konrad Kosuge",
-    "title": "Opto-Mechatronics engineer | Software Developer",
+    "title": "Opto-Mechatronics Engineer | Software Developer",
     "email": "konradkosuge@gmail.com",
     "phone": "+48 600 001 780",
     "linkedin": "linkedin.com/in/konrad-kosuge",
@@ -161,14 +161,6 @@
     {
       "year": "2025",
       "description": "CERN SPARC Program - Selected for highly competitive internship program (5% acceptance rate)"
-    },
-    {
-      "year": "2024",
-      "description": "Best Engineering Project - Spring-O-Meter 1000, Politechnika Warszawska"
-    },
-    {
-      "year": "2023",
-      "description": "Academic Excellence Award - Applied Computer Science, Politechnika Warszawska"
     }
   ],
   "languages": [
